@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    role: {
+    role: {   // If user role = 1 --> admin
         type: Number,
         default: 0,
     },
