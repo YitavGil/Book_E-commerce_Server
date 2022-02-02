@@ -14,11 +14,14 @@ const bookSchema = new mongoose.Schema({
         required: true
     },
     countInStock: {
-        type: Number,
-        required: true
+        type: Number
     },
     description: {
         type: String
+    },
+    checked: {
+        type: Boolean,
+        default: false
     },
     imageUrl: {
         type: String,
@@ -29,6 +32,8 @@ const bookSchema = new mongoose.Schema({
         ref: 'genre',
         required: true
     }
+}, {
+    timestamps: true
 })
 
 const Book = mongoose.model('book', bookSchema);
