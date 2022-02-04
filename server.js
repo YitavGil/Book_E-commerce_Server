@@ -20,8 +20,9 @@ app.use(fileUpload({
 app.use('/user', require('./routes/userRouter'))
 app.use('/books', require('./routes/booksRouter'))
 app.use('/review', require('./routes/reviewRouter'))
-app.use('/genre', require('./routes/genreRouter'))
-app.use('/genre', require('./routes/upload'))
+app.use('/genres', require('./routes/genreRouter'))
+// app.use('/genre', require('./routes/upload'))
+app.use('/payment', require('./routes/paymentRouter'))
 
 //connect to mongoDB
 const URI = process.env.MONGO_URI
