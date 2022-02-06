@@ -23,8 +23,8 @@ const bookSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    imageUrl: {
-        type: String,
+    images: {
+        type: Object,
         required: true
     },
     genre: { 

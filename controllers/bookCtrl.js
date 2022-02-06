@@ -1,6 +1,7 @@
 const Book = require('../models/bookModel');
 const Genre = require('../models/genreData');
 const books = require('../data/booksData');
+const mongoose = require('mongoose');
 
 
 // Filter, sort and paginating
@@ -36,7 +37,7 @@ class APIfeatures {
 
     paginating(){
         const page = this.queryString.page * 1 || 1
-        const limit = this.queryString.limit * 1 || 10
+        const limit = this.queryString.limit * 1 || 15
         const skip = (page - 1) * limit;
         this.query = this.query.skip(skip).limit(limit)
         return this
@@ -74,14 +75,14 @@ const bookCtrl = {
     },
     createBook: async(req, res) =>{
         try {
-            const {name, author, price, description, genre, image} = req.body;
-            if(!image) return res.status(400).json({msg: "please upload an image"})
+            const {name, author, price, description, genre, images} = req.body;
+            if(!images) return res.status(400).json({msg: "please upload an image"})
 
             const book = await Book.findOne({name})
             if(book) return res.status(400).json({msg: "This book already exist."})
 
             const newBook = new Book({
-                name: name.toLowerCase(), author, price, description, genre, image
+                name: name.toLowerCase(), author, price, description, genre, images
             })
 
             await newBook.save()
@@ -102,11 +103,11 @@ const bookCtrl = {
     },
     updateBook: async(req, res) =>{
         try {
-           const {name, author, price, description, genre, image} = req.body;
-           if(!image) return res.status(400).json({msg: "please upload an image"})
+           const {name, author, price, description, genre, images} = req.body;
+           if(!images) return res.status(400).json({msg: "please upload an image"})
            
            await Book.findOneAndUpdate({_id: req.params.id}, {
-            name: name.toLowerCase(), author, price, description, genre, image
+            name: name.toLowerCase(), author, price, description, genre, images
            })
 
            res.json({msg: "Product updated"})
@@ -114,6 +115,33 @@ const bookCtrl = {
             console.log(err);
             res.status(500).json({msg: "Server Error"});
         }
+    },
+    importBooks: async  (req, res) => {
+   
+        for(let i=0; i<books.length; i++){
+            console.log(books[i].name);
+            const book = await Book.findOne({
+                name: books[i].name
+            })
+            if (book){
+                book.countInStock += books[i].countInStock
+                await book.save();
+            } else {
+                try{
+                    console.log("Genre is ", books[i].genre);
+                    const idBook = {...books[i], 
+                    genre: mongoose.Types.ObjectId(books[i].genre)
+                    }
+                    const newBook = new Book(idBook);
+                    await newBook.save()
+                }catch(e){
+                    console.log(e)
+                    res.status(500).json({msg: "Server Error"});
+                }
+            }     
+        }
+
+            res.status(200).send()
     }
     
 }
@@ -121,28 +149,7 @@ const bookCtrl = {
 
 
 
-const importBooks = async  (req, res) => {
-    for(let i=0; i<books.length; i++){
-        console.log(books[i].name);
-        const book = await Book.findOne({
-            name: books[i].name
-        })
-        if (book){
-            book.countInStock += books[i].countInStock
-        } else {
-            try{
-                const newBook = new Book(books[i]);
-                await newBook.save()
-            }catch(e){
-                console.log(e)
-                res.status(500).send();
-            }
-        }     
-    }
-    res.send();
-}
+
 
 module.exports = bookCtrl
-// module.exports = {
-//     importBooks
-// }
+

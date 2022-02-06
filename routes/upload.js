@@ -3,9 +3,7 @@ const cloudinary = require('cloudinary');
 const auth = require('../middleware/auth');
 const authAdmin = require('../middleware/authAdmin');
 const fs = require('fs');
-const { path } = require('express/lib/application');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
+
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -14,7 +12,7 @@ cloudinary.config({
 })
 
 // Upload image
-router.post('/upload',auth, authAdmin, (req, res) => {
+router.post('/upload',auth, (req, res) => {
     try {
        if (!req.files || Object.keys(req.files).length === 0) 
             return res.status(400).json({msg: 'No files were uploaded'})
@@ -33,7 +31,7 @@ router.post('/upload',auth, authAdmin, (req, res) => {
         }
         
 
-        cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result) => {
+        cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "e-commerce"}, async(err, result) => {
             if(err) throw err;
 
             removeTmp(file.tempFilePath)

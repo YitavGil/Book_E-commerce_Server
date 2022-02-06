@@ -5,6 +5,8 @@ const auth = require('../middleware/auth');;
 
 router.post('/', auth, reviewCtrl.postReview)
 
+router.get('/:id', auth, reviewCtrl.getReviewByBook)
+
 
 
 

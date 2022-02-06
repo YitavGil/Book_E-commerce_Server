@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const router = express.Router();
 const bookCtrl = require('../controllers/bookCtrl');
 
+router.get('/insert', bookCtrl.importBooks)
 
 router.route("/")
     .get(bookCtrl.getAllBooks)
@@ -14,7 +15,7 @@ router.route('/:id')
     .get(bookCtrl.getBookById)
 
 
-// router.get('/insert', importBooks)
+
 
 // router.get('/:id', getBookById);
 
