@@ -7,6 +7,8 @@ router.post('/', auth, reviewCtrl.postReview)
 
 router.get('/:bookId', auth, reviewCtrl.getReviewByBook)
 
+router.delete('/:reviewId', auth, reviewCtrl.deleteReview)
+
 
 
 
