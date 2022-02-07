@@ -17,7 +17,7 @@ const reviewCtrl = {
     },
     getReviewByBook: async (req, res) => {
         const {bookId} = req.params
-        const reviews = await Review.find({book: bookId})
+        const reviews = await Review.find({book: bookId}).populate(user)
         res.json(reviews)
     },
     deleteReview: async (req, res) => {
