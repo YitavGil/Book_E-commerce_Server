@@ -7,7 +7,7 @@ const reviewCtrl = {
             const newReview = new Review({
                 book: bookId,
                 content: content,
-                user:  req.user._id
+                user:  req.user.id
             })
             await newReview.save()
             res.status(201).send("Review posted")
