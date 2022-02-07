@@ -27,6 +27,9 @@ const bookSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    imageUrl: {
+        type: String,
+    },
     genre: { 
         type: mongoose.Types.ObjectId,
         ref: 'genre',

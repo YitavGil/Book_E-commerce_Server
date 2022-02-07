@@ -1,4 +1,5 @@
 const Genre = require('../models/genreData')
+const Books = require('../models/bookModel')
 
 const genreCtrl = {
     getGenres: async(req, res) =>{
@@ -26,6 +27,8 @@ const genreCtrl = {
     },
     deleteGenre: async(req, res) =>{
         try {
+            const books = await Books.findOne({genre: req.params.id})
+            if(books) return res.status(500).json({msg: "Please delete all products with the same genre"}) 
             await Genre.findByIdAndDelete(req.params.id)
             res.json({msg: 'Genre deleted'})
         } catch (err) {
