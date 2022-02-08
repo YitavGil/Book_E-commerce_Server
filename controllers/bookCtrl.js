@@ -15,7 +15,7 @@ class APIfeatures {
        
         const excludedFields = ["page", "sort", "limit"];
         excludedFields.forEach(el => delete(queryObj[el]));
-
+        queryObj.options = "i" //tell mongoose that the search will be case insensitive
         let queryStr = JSON.stringify(queryObj)
         queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, match => '$' + match)
 
