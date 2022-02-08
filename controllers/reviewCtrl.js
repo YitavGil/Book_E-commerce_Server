@@ -45,7 +45,7 @@ const reviewCtrl = {
         const {content} = req.body
         const review = await Review.findOne({_id: reviewId})
         if (review) {
-            if(review.user === req.user._id){
+            if(review.user.toString() === req.user._id){ //user is an object*
                 review.content = content
                 await review.save()
                 res.status(200).send('Review updated')
