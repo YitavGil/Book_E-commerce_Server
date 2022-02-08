@@ -28,7 +28,7 @@ const reviewCtrl = {
         const {reviewId} = req.params
         const review = await Review.findOne({_id: reviewId})
         if (review) {
-            if(review.user === req.user._id){
+            if(review.user.toString() === req.user.id.toString()){
                 await Review.deleteOne({_id: reviewId})
                 return res.send("Comment deleted")
             } else{
@@ -45,8 +45,7 @@ const reviewCtrl = {
         const {content} = req.body
         const review = await Review.findOne({_id: reviewId})
         if (review) {
-            console.log(review.user, req.user);
-            if(review.user.toString() === req.user._id.toString()){ //user is an object*
+            if(review.user.toString() === req.user.id.toString()){ //user is an object*
                 review.content = content
                 await review.save()
                 res.status(200).send('Review updated')
