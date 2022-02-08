@@ -9,6 +9,8 @@ router.get('/:bookId', auth, reviewCtrl.getReviewByBook)
 
 router.delete('/:reviewId', auth, reviewCtrl.deleteReview)
 
+router.patch('/:reviewId', auth, reviewCtrl.updateReview)
+
 
 
 

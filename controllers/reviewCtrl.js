@@ -26,7 +26,7 @@ const reviewCtrl = {
     },
     deleteReview: async (req, res) => {
         const {reviewId} = req.params
-        const review = await findOne({_id: reviewId})
+        const review = await Review.findOne({_id: reviewId})
         if (review) {
             if(review.user === req.user._id){
                 await Review.deleteOne({_id: reviewId})
@@ -43,7 +43,7 @@ const reviewCtrl = {
     updateReview: async (req, res) => {
         const {reviewId} = req.params
         const {content} = req.body
-        const review = await findOne({_id: reviewId})
+        const review = await Review.findOne({_id: reviewId})
         if (review) {
             if(review.user === req.user._id){
                 review.content = content
