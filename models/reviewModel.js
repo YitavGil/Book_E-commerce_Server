@@ -9,7 +9,7 @@ const reviewSchema = new mongoose.Schema({
 
     user: {
         type: mongoose.Types.ObjectId,
-        ref: 'Users'
+        ref: 'User'
     },
 
     book: {

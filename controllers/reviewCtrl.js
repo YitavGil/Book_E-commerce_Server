@@ -4,6 +4,10 @@ const reviewCtrl = {
     postReview: async (req, res) => {
         try {
             const {bookId, content} = req.body;
+            if(!req.user.id){
+                res.status(401).send("Invalid Token")
+                return
+            }
             const newReview = new Review({
                 book: bookId,
                 content: content,
