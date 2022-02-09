@@ -65,7 +65,7 @@ const userCtrl = {
              maxAge: 7*24*60*60*1000 //7d   
             })
 
-            res.json({accessToken})
+            res.json({accessToken, user})
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
@@ -100,12 +100,15 @@ const userCtrl = {
     },
     getUser: async (req, res) => {
         try {
-            const user = await Users.findById(req.user.id).select('-password')
+            console.log(req);
+            const user = await Users.findById(req.params.id).select('-password')
+            console.error(user)
             if (!user) return res.status(400).json({msg: "User does not exist."}) 
-
+        
             res.json(user)
         } catch (err) {
-            return res.status(500).json({msg: err.message}) 
+            return res.status(500).json({msg: err.message})
+            console.error(err.message) 
         }
     },
     addToCart: async (req, res) => {

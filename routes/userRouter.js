@@ -3,6 +3,7 @@ const req = require('express/lib/request');
 const userCtrl = require('../controllers/userCtrl');
 const auth = require('../middleware/auth');
 
+router.get('/user/:id', userCtrl.getUser)
 
 router.post('/register', userCtrl.register)
 
@@ -15,6 +16,7 @@ router.get('/logout', userCtrl.logout)
 router.get('/refresh_token', userCtrl.refreshToken)
 
 router.get('/infor', auth, userCtrl.getUser)
+
 
 router.patch('/addtocart', auth, userCtrl.addToCart)
 
