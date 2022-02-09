@@ -18,5 +18,7 @@ router.get('/infor', auth, userCtrl.getUser)
 
 router.patch('/addtocart', auth, userCtrl.addToCart)
 
+router.patch('/addtoread', auth, userCtrl.addToRead)
+
 
 module.exports = router

@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         default: []
     },
 
+    read: {
+        type: Array,
+        default: []
+    },
+
     library: [{
         type: mongoose.Types.ObjectId,
         ref: 'book'
