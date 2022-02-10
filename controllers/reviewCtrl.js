@@ -3,6 +3,7 @@ const Review = require("../models/reviewModel")
 const reviewCtrl = {
     postReview: async (req, res) => {
         try {
+            console.log('postReview', req.body, req.user)
             const {bookId, content} = req.body;
             if(!req.user.id){
                 res.status(401).send("Invalid Token")
@@ -16,6 +17,7 @@ const reviewCtrl = {
             await newReview.save()
             res.status(201).send("Review posted")
         } catch (err) {
+            console.error(err.message)
             return res.status(500).json({msg: err.message})
         }
     },

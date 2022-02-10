@@ -45,12 +45,15 @@ const userCtrl = {
     login: async (req, res) => {
         try {
             const {email, password} = req.body;
-
+            
             const user = await Users.findOne({email})
+            // console.log('loginuser', user);
             if (!user){
+                console.log('loginuser not found');
                 return res.status(400).json({msg: "User does not exist."})
             }
             const isMatch = await bcrypt.compare(password, user.password)
+            console.log('loginuser ismatch', isMatch);
             if (!isMatch){
                 return res.status(400).json({msg: "Incorrect username or password!"})
             }
@@ -80,6 +83,7 @@ const userCtrl = {
     },
     refreshToken: (req, res) => {
         try{
+            console.log('refreshToken ctrl')
             const rf_token = req.cookies.refreshtoken;
             if (!rf_token) {
                 return res.status(400).json({msg: "Please Login or Register"})
@@ -94,21 +98,22 @@ const userCtrl = {
             })
 
         } catch(err) {
+            console.log('refershtoken error', err.message)
             return res.status(500).json({msg: err.message})
         }
         
     },
     getUser: async (req, res) => {
         try {
-            console.log(req);
-            const user = await Users.findById(req.params.id).select('-password')
-            console.error(user)
+            const userID = req.params.id || req.user.id;
+            const user = await Users.findById(userID).select('-password')
+            // console.error(user)
             if (!user) return res.status(400).json({msg: "User does not exist."}) 
         
             res.json(user)
         } catch (err) {
-            return res.status(500).json({msg: err.message})
             console.error(err.message) 
+            return res.status(500).json({msg: err.message})
         }
     },
     addToCart: async (req, res) => {
