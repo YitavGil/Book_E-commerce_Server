@@ -34,13 +34,6 @@ mongoose.connect(URI, {
     console.log('Connected to MongoDB');
 })
 
-const publicPath = path.join(__dirname, 'build');
-app.use(cors());
-app.use(express.static(publicPath));
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.resolve(publicPath, 'index.html'));
-});
 
 
 const PORT = process.env.PORT || 5000
